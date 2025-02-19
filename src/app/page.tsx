@@ -5,50 +5,13 @@ import UserCard from "./components/UserCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { buttonVariants } from "@/components/ui/button";
 
-type User =
-  | {
-      name?: string | null | undefined;
-      email?: string | null | undefined;
-      image?: string | null | undefined;
-    }
-  | undefined;
-
-type Props = {
-  user: User;
-  pagetype: string;
-};
 export default async function Home() {
   const session = await getServerSession(options);
   console.log(session);
   return (
     <>
       {session ? (
-        <div className="flex flex-col">
-          <UserCard user={session?.user} pagetype={"Home"} />
-          <div className="my-2 flex">
-            <Tabs defaultValue="account" className="w-full border border-black">
-              <TabsList>
-                <TabsTrigger value="account">My Post</TabsTrigger>
-                <TabsTrigger value="password">All Post</TabsTrigger>
-              </TabsList>
-
-              <Link
-                className={buttonVariants({ variant: "outline" })}
-                href="/posts/new"
-              >
-                Add New Posts
-              </Link>
-
-              <button> Add New Post</button>
-              <TabsContent value="account">
-                Make changes to your account here.
-              </TabsContent>
-              <TabsContent value="password">
-                Change your password here.
-              </TabsContent>
-            </Tabs>
-          </div>
-        </div>
+        <></>
       ) : (
         <>
           <div className="min-h-56 flex flex-col items-center justify-center ">

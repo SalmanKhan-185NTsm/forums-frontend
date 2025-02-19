@@ -3,7 +3,30 @@ import React, { useState } from "react";
 import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Button } from "@/components/ui/button";
+import { title } from "process";
+interface Post {
+  title: string;
+  description: string;
+  tags: string;
+  postedByUserId?: string | null | undefined;
+}
+interface Tag {
+  tagId: string;
+  tagName: string;
+}
+
+// type User =
+//   | {
+//       name?: string | null | undefined;
+//       email?: string | null | undefined;
+//       image?: string | null | undefined;
+//       userId?: string | null | undefined;
+//     }
+//   | undefined;
+
+type Props = {
+  userSession: any;
+};
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
@@ -11,9 +34,9 @@ const validationSchema = Yup.object({
   tags: Yup.string().required("At least one tag is required"),
 });
 
-const AddNewPostForm: React.FC = () => {
+export default function AddNewPostForm({ userSession }: Props) {
   const [submissionStatus, setSubmissionStatus] = useState<string>("");
-
+  console.log(userSession);
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -21,10 +44,13 @@ const AddNewPostForm: React.FC = () => {
       tags: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (data: Post) => {
+      data.postedByUserId = userSession?.user?.userId;
       try {
-        console.log(values);
-        // const response = await axios.post("/api/submit", values);
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/create-post`;
+        console.log(url);
+        const response = await axios.post(url, data);
+        console.log(response);
         setSubmissionStatus("Form submitted successfully!");
       } catch (error) {
         setSubmissionStatus("Failed to submit form");
@@ -109,6 +135,4 @@ const AddNewPostForm: React.FC = () => {
       {submissionStatus && <p>{submissionStatus}</p>}
     </div>
   );
-};
-
-export default AddNewPostForm;
+}

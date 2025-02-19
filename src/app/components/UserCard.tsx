@@ -48,7 +48,7 @@ export default function Card({ user, pagetype }: Props) {
         {userImage}
         <div>
           <p>Welcome, {user?.name}</p>
-          <p> {user?.userId}</p>
+          <p> {user?.email}</p>
         </div>
 
         {/* <p className="text-2xl text-center">{pagetype}</p> */}
