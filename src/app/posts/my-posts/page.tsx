@@ -1,4 +1,5 @@
 import { options } from "../../api/auth/[...nextauth]/options";
+import { Session } from "next-auth";
 import { getServerSession } from "next-auth/next";
 import UserCard from "../../components/UserCard";
 import { redirect } from "next/navigation";
@@ -22,39 +23,54 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState, useEffect } from "react";
+import axios from "axios";
+interface Posts {
+  id: string;
+  name: string;
+  description: string;
+  // ... other properties
+}
+interface CardProps {
+  data: any;
+}
 
 export default async function MyPosts() {
-  const session = await getServerSession(options);
-
+  const session: (Session & { user: { userId: string } }) | null =
+    await getServerSession(options);
   if (!session) {
     redirect("/api/auth/signin?callbackUrl=/server");
   }
 
+  const userId = session?.user?.userId;
+  const body = { userId };
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/get-posts-by-user-id`;
+  const response = await axios.post(url, body);
+  console.log(response.data.data);
+  const postData = response.data.data;
+
   return (
-    <section className="w-[1280px] flex flex-row items-start gap-6">
-      {[1, 2, 3, 4].map((data) => {
-        return <CardWithForm />;
+    <section className="w-[1280px] flex flex-col  items-start gap-6">
+      {postData.map((data: CardProps) => {
+        return <CardWithForm data={data} />;
       })}
     </section>
   );
 }
 
-export function CardWithForm() {
+export function CardWithForm({ data }: CardProps) {
+  console.log("data is", data);
+  const postedDate: Date = new Date(data.createdAt);
   return (
-    <Card className="w-[500px]">
+    <Card className="w-full">
       <CardHeader>
-        <CardTitle>Title 1</CardTitle>
-        <CardDescription>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet,
-          distinctio cumque ducimus cum natus consequuntur repellat quod eos,
-          fugit deleniti hic autem culpa incidunt dolores? Delectus, officia.
-          Soluta, fugiat consectetur..
-        </CardDescription>
+        <CardTitle className="text-2xl">{data.title}</CardTitle>
+        <CardDescription>{data.description}</CardDescription>
       </CardHeader>
       <CardContent>
-      <label className="text-xs">Posted By</label>
+        <label className="text-xs">Posted By</label>
         <CardTitle>Salman</CardTitle>
-        <label className="text-xs">2021-10-10</label>
+        <label className="text-xs">{`${postedDate.getDate()}-${postedDate.getMonth()}-${postedDate.getFullYear()}`}</label>
       </CardContent>
       <CardFooter className="flex justify-between">
         {/* <Button variant="outline">Comment</Button> */}
