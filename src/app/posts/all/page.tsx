@@ -1,30 +1,10 @@
+import * as React from "react";
 import { options } from "../../api/auth/[...nextauth]/options";
 import { Session } from "next-auth";
 import { getServerSession } from "next-auth/next";
-import UserCard from "../../components/UserCard";
 import { redirect } from "next/navigation";
-import * as React from "react";
-
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useState, useEffect } from "react";
 import axios from "axios";
+import CardWithForm from "@/app/components/Posts/Card";
 interface Posts {
   id: string;
   name: string;
@@ -55,27 +35,5 @@ export default async function AllPosts() {
         return <CardWithForm data={data} />;
       })}
     </section>
-  );
-}
-
-export function CardWithForm({ data }: CardProps) {
-  console.log("data is", data);
-  const postedDate: Date = new Date(data.createdAt);
-  return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="text-2xl">{data.title}</CardTitle>
-        <CardDescription>{data.description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <label className="text-xs">Posted By</label>
-        <CardTitle>Salman</CardTitle>
-        <label className="text-xs">{`${postedDate.getDate()}-${postedDate.getMonth()}-${postedDate.getFullYear()}`}</label>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        {/* <Button variant="outline">Comment</Button> */}
-        <Button>Read More</Button>
-      </CardFooter>
-    </Card>
   );
 }

@@ -4,10 +4,15 @@ import Link from "next/link";
 import UserCard from "./components/UserCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { buttonVariants } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getServerSession(options);
   console.log(session);
+  if (session) {
+    redirect("/posts/all");
+  }
+
   return (
     <>
       {session ? (
