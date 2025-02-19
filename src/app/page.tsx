@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 import UserCard from "./components/UserCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { buttonVariants } from "@/components/ui/button";
 
 type User =
   | {
@@ -30,8 +31,16 @@ export default async function Home() {
                 <TabsTrigger value="account">My Post</TabsTrigger>
                 <TabsTrigger value="password">All Post</TabsTrigger>
               </TabsList>
+
+              <Link
+                className={buttonVariants({ variant: "outline" })}
+                href="/posts/new"
+              >
+                Add New Posts
+              </Link>
+
+              <button> Add New Post</button>
               <TabsContent value="account">
-                
                 Make changes to your account here.
               </TabsContent>
               <TabsContent value="password">

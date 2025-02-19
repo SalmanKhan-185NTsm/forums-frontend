@@ -80,3 +80,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+.shadcdn-form-container {
+  @apply px-7 py-7 border my-6
+}
+.shadcdn-form-container input,
+.shadcdn-form-container textarea {
+  border: 2px solid black;
+  @apply block w-[100%] p-3 mb-4;
+}
+.shadcdn-form-container .shadcdn-input-error {
+  @apply border-red-500;
+}
+.shadcdn-form-container .shadcdn-error {
+  @apply text-red-500;
+  @apply text-xs;
+  @apply font-bold;
+}
