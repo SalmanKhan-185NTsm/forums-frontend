@@ -4,10 +4,10 @@ import { getServerSession } from "next-auth/next";
 
 export default async function Navbar() {
   const session = await getServerSession(options);
-
+  console.log("data in session",session);
   return (
     <div className="bg-gray-300">
-      <div className="w-[1280px] mx-auto ">
+      <div className="w-[1280px] mx-auto">
         <nav className=" p-4 flex">
           <div className="title w-2/12">
             <h2>Community forms</h2>

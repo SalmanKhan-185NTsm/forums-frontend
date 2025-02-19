@@ -5,6 +5,8 @@ type User =
       name?: string | null | undefined;
       email?: string | null | undefined;
       image?: string | null | undefined;
+      username?: string | null | undefined;
+      userId?: string | null | undefined;
     }
   | undefined;
 
@@ -44,7 +46,11 @@ export default function Card({ user, pagetype }: Props) {
       {/* {emailDisplay} */}
       <div className=" w-12/12 flex flex-row px-9  items-center gap-2 font-bold">
         {userImage}
-        <p>Welcome, {user?.username}</p>
+        <div>
+          <p>Welcome, {user?.name}</p>
+          <p> {user?.userId}</p>
+        </div>
+
         {/* <p className="text-2xl text-center">{pagetype}</p> */}
       </div>
     </section>
