@@ -29,6 +29,8 @@ export default async function AllPosts() {
   const postData = response.data.data;
   return (
     <section className="w-[1280px] flex flex-col  items-start gap-6">
+      {postData.length === 0 && <h2>You have No Posts</h2>}
+
       {postData.map((data: CardProps) => {
         return <CardWithForm data={data} />;
       })}

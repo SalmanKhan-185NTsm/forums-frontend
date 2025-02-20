@@ -12,11 +12,6 @@ interface Post {
   tags: string;
   postedByUserId?: string | null | undefined;
 }
-interface Tag {
-  tagId: string;
-  tagName: string;
-}
-
 // type User =
 //   | {
 //       name?: string | null | undefined;
@@ -168,13 +163,25 @@ export default function AddNewPostForm({ userSession }: Props) {
         <div className="flex gap-2 flex-wrap my-3">
           {tagsList?.map((data: Tags, index: number) => {
             return (
-              <button
-                type="button"
-                className={buttonVariants({ variant: "outline" })}
-                onClick={() => {}}
+              <div
+                className={`${buttonVariants({
+                  variant: "outline",
+                })} p-10 pr-0 overflow-hidden`}
               >
-                {data.name}
-              </button>
+                <div className="">{data.name}</div>
+                <button
+                  className="bg-red-600 text-white p-2"
+                  type="button"
+                  onClick={() => {
+                    const updatedTags = tagsList.filter(
+                      (tag) => tag.id !== data.id
+                    );
+                    setTagsList(updatedTags);
+                  }}
+                >
+                  delete
+                </button>
+              </div>
             );
           })}
         </div>
