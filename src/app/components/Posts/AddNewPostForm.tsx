@@ -161,6 +161,7 @@ export default function AddNewPostForm({ userSession }: Props) {
           {tagsList?.map((data: Tags, index: number) => {
             return (
               <div
+                key={"tags_" + index}
                 className={`${buttonVariants({
                   variant: "outline",
                 })} p-10 pr-0 overflow-hidden`}

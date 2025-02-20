@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -41,6 +40,7 @@ export default function PostCard({ data }: CardProps) {
           {data.tags?.map((data: Tags, index: number) => {
             return (
               <div
+                key={"posts_" + index}
                 className={`${buttonVariants({
                   variant: "outline",
                 })} p-10 `}

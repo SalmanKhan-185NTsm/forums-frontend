@@ -30,8 +30,8 @@ export default async function AllPosts() {
     return (
       <section className="w-[1280px] flex flex-col  items-start gap-6">
         {postData.length === 0 && <h2>You have No Posts</h2>}
-        {postData.map((data: CardProps) => {
-          return <PostCard data={data} />;
+        {postData.map((data: CardProps, index: number) => {
+          return <PostCard key={"post_card" + index} data={data} />;
         })}
       </section>
     );

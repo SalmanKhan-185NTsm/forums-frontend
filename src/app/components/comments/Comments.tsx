@@ -63,7 +63,7 @@ export default function Comments({ postData, refresh, refreshData }: Props) {
     };
 
     fetchComments();
-  }, [refresh]);
+  }, [refresh,postData.postId]);
 
   if (loading) {
     return <div>Loading comments...</div>;
@@ -94,7 +94,7 @@ export default function Comments({ postData, refresh, refreshData }: Props) {
   return (
     <>
       {comments.map((comment, index) => (
-        <Card key={index} className="mb-8">
+        <Card key={"comments"+index} className="mb-8">
           <CardContent className="px-4 py-5 border m-5 rounded">
             {comment.content}
           </CardContent>
