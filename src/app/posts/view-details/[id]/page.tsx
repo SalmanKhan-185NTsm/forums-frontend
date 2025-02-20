@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
 
 type User =
   | {
@@ -34,6 +35,12 @@ interface Tags {
   id: string;
   name: string;
 }
+// TODO
+// API fetch the post details
+// delete functionality
+// edit functionality
+// comment functionality
+// user check for operations
 
 export default function PostDetails() {
   const { data: session } = useSession({
@@ -46,7 +53,7 @@ export default function PostDetails() {
   console.log(session);
   return (
     <div className="w-[1280px] flex flex-col">
-      <h1 className="text-3xl">Post Details</h1>
+      <h1 className="text-3xl mb-10">Post Details / View</h1>
       <CardDetails
         data={{
           postId: "bc00de08-d3ba-4bfe-b45a-4d2fd78e6e4e",
@@ -87,11 +94,7 @@ function CardDetails({ data }: CardProps) {
         <CardTitle className="text-2xl">{data.title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl">
-          {data.description.length > 100
-            ? `${data.description.substring(0, 100)}...`
-            : data.description}
-        </div>
+        <div className="text-2xl">{data.description}</div>
       </CardContent>
 
       <CardFooter className="flex items-start flex-col">
@@ -113,8 +116,19 @@ function CardDetails({ data }: CardProps) {
             );
           })}
         </div>
-
-        <Button>View More</Button>
+        <div className="flex flex-row gap-5">
+          <Button className="bg-red-800 text-white hover:bg-red-700">
+            Delete
+          </Button>
+          <Link
+            href={`/edit-details/${data.postId}`}
+            className={`${buttonVariants({
+              variant: "outline",
+            })} bg-gray-600 text-white hover:bg-gray-500`}
+          >
+            Edit
+          </Link>
+        </div>
       </CardFooter>
     </Card>
   );

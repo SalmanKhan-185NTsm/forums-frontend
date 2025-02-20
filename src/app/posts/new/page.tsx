@@ -26,7 +26,6 @@ export default function NewPost() {
     },
   });
 
-  console.log(session);
   return (
     <div className="w-[1280px] flex flex-col">
       <h1 className="text-3xl">Create New Post</h1>

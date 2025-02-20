@@ -44,7 +44,6 @@ export const options: NextAuthOptions = {
       session.user.username = token.github_username;
       session.user.display_name = token.display_name;
       session.user.userId = token.userId;
-      console.log(session);
       return session;
     },
   },
