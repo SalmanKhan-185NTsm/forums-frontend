@@ -36,20 +36,20 @@ export default function PostCard({ data }: CardProps) {
           {data?.postedByUserId?.username}
         </CardTitle>
         <label className="text-xs mb-6 block font-semibold">{`${postedDate.getDate()}-${postedDate.getMonth()}-${postedDate.getFullYear()}`}</label>
-          <div className="flex flex-row flex-wrap gap-5 mb-5">
+        <div className="flex flex-row flex-wrap gap-5 mb-5">
           {data.tags?.map((data: Tags, index: number) => {
-          return (
-            <div
-              className={`${buttonVariants({
-                variant: "outline",
-              })} p-10 `}
-            >
-              <div className="">{data.name}</div>
-            </div>
-          );
-        })}
-          </div>
-    
+            return (
+              <div
+                className={`${buttonVariants({
+                  variant: "outline",
+                })} p-10 `}
+              >
+                <div className="">{data.name}</div>
+              </div>
+            );
+          })}
+        </div>
+
         <Button>View More</Button>
       </CardFooter>
     </Card>
