@@ -19,7 +19,7 @@ type Props = {
 };
 
 const validationSchema = Yup.object({
-  comment: Yup.string().required("Comment is required"),
+  comment: Yup.string().required("Comment is required").max(750),
 });
 
 export default function AddComment({

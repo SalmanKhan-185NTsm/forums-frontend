@@ -20,7 +20,7 @@ type Props = {
 };
 
 const validationSchema = Yup.object({
-  title: Yup.string().required("Title is required"),
+  title: Yup.string().required("Title is required").max(200),
   description: Yup.string().required("Description is required"),
   tags: Yup.string().required("At least one tag is required").optional(),
 });
