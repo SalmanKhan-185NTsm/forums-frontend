@@ -2,30 +2,54 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { buttonVariants } from "@/components/ui/button";
 
 interface CardProps {
   data: any;
 }
-export default function CardWithForm({ data }: CardProps) {
+interface Tags {
+  id: string;
+  name: string;
+}
+export default function PostCard({ data }: CardProps) {
   const postedDate: Date = new Date(data.createdAt);
   return (
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="text-2xl">{data.title}</CardTitle>
-        <CardDescription>{data.description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <label className="text-xs">Posted By</label>
-        <CardTitle>{data?.postedByUserId?.username}</CardTitle>
-        <label className="text-xs">{`${postedDate.getDate()}-${postedDate.getMonth()}-${postedDate.getFullYear()}`}</label>
+        <div className="text-2xl">
+          {data.description.length > 100
+            ? `${data.description.substring(0, 100)}...`
+            : data.description}
+        </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        {/* <Button variant="outline">Comment</Button> */}
+
+      <CardFooter className="flex items-start flex-col">
+        <label className="text-xs">Posted By</label>
+        <CardTitle className="mb-2 block">
+          {data?.postedByUserId?.username}
+        </CardTitle>
+        <label className="text-xs mb-6 block font-semibold">{`${postedDate.getDate()}-${postedDate.getMonth()}-${postedDate.getFullYear()}`}</label>
+          <div className="flex flex-row flex-wrap gap-5 mb-5">
+          {data.tags?.map((data: Tags, index: number) => {
+          return (
+            <div
+              className={`${buttonVariants({
+                variant: "outline",
+              })} p-10 `}
+            >
+              <div className="">{data.name}</div>
+            </div>
+          );
+        })}
+          </div>
+    
         <Button>View More</Button>
       </CardFooter>
     </Card>

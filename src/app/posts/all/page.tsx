@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import axios from "axios";
-import CardWithForm from "@/app/components/Posts/Card";
+import PostCard from "@/app/components/Posts/Card";
 interface Posts {
   id: string;
   name: string;
@@ -32,7 +32,7 @@ export default async function AllPosts() {
       {postData.length === 0 && <h2>You have No Posts</h2>}
 
       {postData.map((data: CardProps) => {
-        return <CardWithForm data={data} />;
+        return <PostCard data={data} />;
       })}
     </section>
   );
