@@ -21,7 +21,7 @@ export default function CardWithForm({ data }: CardProps) {
       </CardHeader>
       <CardContent>
         <label className="text-xs">Posted By</label>
-        <CardTitle>Salman</CardTitle>
+        <CardTitle>{data?.postedByUserId?.username}</CardTitle>
         <label className="text-xs">{`${postedDate.getDate()}-${postedDate.getMonth()}-${postedDate.getFullYear()}`}</label>
       </CardContent>
       <CardFooter className="flex justify-between">
