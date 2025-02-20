@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { title } from "process";
+import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+
 interface Post {
   title: string;
   description: string;
@@ -31,12 +33,18 @@ type Props = {
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
-  tags: Yup.string().required("At least one tag is required"),
+  tags: Yup.string().required("At least one tag is required").optional(),
 });
 
+interface Tags {
+  id?: string;
+  name?: string;
+}
 export default function AddNewPostForm({ userSession }: Props) {
   const [submissionStatus, setSubmissionStatus] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   console.log(userSession);
+  const [tagsList, setTagsList] = useState<Tags[]>([]);
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -45,15 +53,25 @@ export default function AddNewPostForm({ userSession }: Props) {
     },
     validationSchema: validationSchema,
     onSubmit: async (data: Post) => {
-      data.postedByUserId = userSession?.user?.userId;
+      setLoading(true);
+      const body = {
+        description: data.description,
+        postedByUserId: userSession?.user?.userId,
+        tags: tagsList,
+        title: data.title,
+      };
       try {
         const url = `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/create-post`;
         console.log(url);
-        const response = await axios.post(url, data);
+        const response = await axios.post(url, body);
         console.log(response);
+        formik.resetForm();
+        setTagsList([]);
         setSubmissionStatus("Form submitted successfully!");
       } catch (error) {
         setSubmissionStatus("Failed to submit form");
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -108,25 +126,61 @@ export default function AddNewPostForm({ userSession }: Props) {
           <label htmlFor="tags" className="text-2xl">
             Tags
           </label>
-          <input
-            id="tags"
-            name="tags"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.tags}
-            className={
-              formik.touched.tags && formik.errors.tags
-                ? "shadcdn-input-error"
-                : ""
-            }
-          />
+
+          <div className="flex w-full max-w-sm items-center space-x-2">
+            <input
+              id="tags"
+              name="tags"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.tags}
+              className={
+                formik.touched.tags && formik.errors.tags
+                  ? "shadcdn-input-error"
+                  : ""
+              }
+            />
+            <Button
+              type="button"
+              className=""
+              onClick={() => {
+                if (formik.values.tags.trim() === "") {
+                  return;
+                }
+                setTagsList([
+                  ...tagsList,
+                  {
+                    id: "id" + Math.random().toString(16).slice(2),
+                    name: formik.values.tags,
+                  },
+                ]);
+                formik.setFieldValue("tags", "");
+              }}
+            >
+              add Tag
+            </Button>
+          </div>
           {formik.touched.tags && formik.errors.tags ? (
             <div className="shadcdn-error">{formik.errors.tags}</div>
           ) : null}
         </div>
+        <div className="flex gap-2 flex-wrap my-3">
+          {tagsList?.map((data: Tags, index: number) => {
+            return (
+              <button
+                type="button"
+                className={buttonVariants({ variant: "outline" })}
+                onClick={() => {}}
+              >
+                {data.name}
+              </button>
+            );
+          })}
+        </div>
         <button
           type="submit"
+          disabled={loading}
           className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
         >
           Submit

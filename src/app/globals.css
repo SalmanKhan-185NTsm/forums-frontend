@@ -87,7 +87,7 @@
 .shadcdn-form-container input,
 .shadcdn-form-container textarea {
   border: 2px solid black;
-  @apply block w-[100%] p-3 mb-4;
+  @apply block w-[100%] p-3 mb-1;
 }
 .shadcdn-form-container .shadcdn-input-error {
   @apply border-red-500;
