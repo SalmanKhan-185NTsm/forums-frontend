@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
 
 interface CardProps {
   data: any;
@@ -50,7 +51,14 @@ export default function PostCard({ data }: CardProps) {
           })}
         </div>
 
-        <Button>View More</Button>
+        <Link
+          className={buttonVariants({
+            variant: "default",
+          })}
+          href={`/posts/view-details/${data.postId}`}
+        >
+          View More
+        </Link>
       </CardFooter>
     </Card>
   );
