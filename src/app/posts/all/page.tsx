@@ -26,9 +26,7 @@ export default async function AllPosts() {
   const body = { userId };
   const url = `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/fetch-posts`;
   const response = await axios.get(url);
-  console.log(response.data.data);
   const postData = response.data.data;
-
   return (
     <section className="w-[1280px] flex flex-col  items-start gap-6">
       {postData.map((data: CardProps) => {

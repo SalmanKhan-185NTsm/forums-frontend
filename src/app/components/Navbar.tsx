@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { options } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth/next";
-import UserCard from "./UserCard";
-import { buttonVariants } from "@/components/ui/button";
+import Navigate from "./Navigtate";
 
 export default async function Navbar() {
   const session = await getServerSession(options);
-  console.log("data in session", session);
+
   return (
     <>
       <div className="bg-gray-300">
@@ -25,15 +24,6 @@ export default async function Navbar() {
                   <li>
                     <Link href="/api/auth/signout">Sign Out</Link>
                   </li>
-                  <li>
-                    <Link href="/server">Server</Link>
-                  </li>
-                  <li>
-                    <Link href="/client">Client</Link>
-                  </li>
-                  <li>
-                    <Link href="/extra">Extra</Link>
-                  </li>
                 </>
               ) : (
                 <li>
@@ -46,34 +36,7 @@ export default async function Navbar() {
       </div>
       {session && (
         <>
-          <div className="w-[1280px] mx-auto">
-            <div className="flex flex-col my-5">
-              <UserCard user={session?.user} pagetype={"Home"} />
-              <div className="my-2 flex gap-2">
-                <Link
-                  className={buttonVariants({ variant: "outline" })}
-                  href="/posts/my-posts"
-                >
-                  My Posts
-                </Link>
-                <Link
-                  className={buttonVariants({ variant: "outline" })}
-                  href="/posts/all"
-                >
-                  All Posts
-                </Link>
-                <Link
-                  className={buttonVariants({
-                    variant: "default",
-                    className: "bg-black text-white",
-                  })}
-                  href="/posts/new"
-                >
-                  Add New Posts
-                </Link>
-              </div>
-            </div>
-          </div>
+          <Navigate session={session} />
         </>
       )}
     </>

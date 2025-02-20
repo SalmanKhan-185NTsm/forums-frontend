@@ -12,7 +12,6 @@ interface CardProps {
   data: any;
 }
 export default function CardWithForm({ data }: CardProps) {
-  console.log("data is", data);
   const postedDate: Date = new Date(data.createdAt);
   return (
     <Card className="w-full">
@@ -27,7 +26,7 @@ export default function CardWithForm({ data }: CardProps) {
       </CardContent>
       <CardFooter className="flex justify-between">
         {/* <Button variant="outline">Comment</Button> */}
-        <Button>View Detailed</Button>
+        <Button>View More</Button>
       </CardFooter>
     </Card>
   );
