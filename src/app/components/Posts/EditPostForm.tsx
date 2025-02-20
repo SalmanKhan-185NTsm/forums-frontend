@@ -13,17 +13,10 @@ interface Post {
   tags: string;
   postedByUserId?: string | null | undefined;
 }
-// type User =
-//   | {
-//       name?: string | null | undefined;
-//       email?: string | null | undefined;
-//       image?: string | null | undefined;
-//       userId?: string | null | undefined;
-//     }
-//   | undefined;
 
 type Props = {
   userSession: any;
+  postData: any;
 };
 
 const validationSchema = Yup.object({
@@ -36,31 +29,32 @@ interface Tags {
   id?: string;
   name?: string;
 }
-export default function AddNewPostForm({ userSession }: Props) {
+export default function EditPostForm({ userSession, postData }: Props) {
   const [submissionStatus, setSubmissionStatus] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [tagsList, setTagsList] = useState<Tags[]>([]);
+  const [tagsList, setTagsList] = useState<Tags[]>(postData.tags);
   const formik = useFormik({
     initialValues: {
-      title: "",
-      description: "",
+      title: postData.title,
+      description: postData.description,
       tags: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (data: Post) => {
       setLoading(true);
       const body = {
-        description: data.description,
-        postedByUserId: userSession?.user?.userId,
-        tags: tagsList,
-        title: data.title,
+        post: {
+          title: data.title,
+          description: data.description,
+          tags: tagsList,
+        },
+        userId: userSession?.user?.userId,
+        postId: postData.postId,
       };
       try {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/create-post`;
-        const response = await axios.post(url, body);
-        formik.resetForm();
-        setTagsList([]);
-        setSubmissionStatus("Form submitted successfully!");
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/update-post`;
+        const response = await axios.put(url, body);
+        setSubmissionStatus("Post Updated successfully");
       } catch (error) {
         setSubmissionStatus("Failed to submit form");
       } finally {
