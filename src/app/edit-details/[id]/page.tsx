@@ -34,27 +34,6 @@ export default function PostDetails(props: any) {
     },
   });
 
-  const userId = session?.user?.userId;
-
-  const handleDelete = async () => {
-    try {
-      const confirm = window.confirm("Are you sure? you want to delete");
-      setLoading(true);
-      if (confirm) {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/delete-post-by-id`;
-        const response = await axios.delete(url, {
-          data: { userId: userId, postId: postId },
-        });
-        if (response.data.status === 200) {
-          setPostData("deleted");
-        }
-      }
-    } catch (error) {
-      setError("An error occurred,unable to delete");
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
     async function fetchPostData() {
       try {

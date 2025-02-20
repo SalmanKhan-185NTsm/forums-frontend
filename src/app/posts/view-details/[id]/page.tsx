@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -14,6 +15,8 @@ import Link from "next/link";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import Comments from "../../../components/comments/Comments";
+import AddComment from "@/app/components/comments/AddComments";
 interface CardProps {
   data: any;
 }
@@ -27,6 +30,7 @@ export default function PostDetails(props: any) {
   const [postData, setPostData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -34,6 +38,9 @@ export default function PostDetails(props: any) {
     },
   });
 
+  const refreshData = () => {
+    setRefresh(!refresh);
+  };
   const userId = session?.user?.userId;
 
   const handleDelete = async () => {
@@ -70,7 +77,8 @@ export default function PostDetails(props: any) {
       }
     }
     fetchPostData();
-  }, [postId, session]);
+  }, [postId, session, refresh]);
+
   if (postData === "deleted") {
     return <div>Post deleted</div>;
   }
@@ -136,6 +144,18 @@ export default function PostDetails(props: any) {
           )}
         </CardFooter>
       </Card>
+      <div className="my-10">
+        <h2 className="text-2xl mb-5">Comments</h2>
+        <Comments refresh={refresh} refreshData={refreshData} postData={{ postId }} />
+        <div>
+          <h2>Add Comment</h2>
+          <AddComment
+            refreshData={refreshData}
+            userSession={session}
+            postData={{ postId }}
+          />
+        </div>
+      </div>
     </div>
   );
 }

@@ -145,7 +145,7 @@ export default function EditPostForm({ userSession, postData }: Props) {
                 formik.setFieldValue("tags", "");
               }}
             >
-              add Tag
+              Add Tag
             </Button>
           </div>
           {formik.touched.tags && formik.errors.tags ? (
