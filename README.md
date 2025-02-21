@@ -1,40 +1,74 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Community Forums
 
-## Getting Started
+## Features & Requirements
 
-First, run the development server:
+### Authentication
+- Users must be able to sign up and sign in using any authentication provider.
+- Used NextAuth.JS for authentication using github as a provider
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Forums
+- Users can create, update, and delete their own forums.
+- Each forum have:
+- Title
+- Description
+- Tags (optional, stored as a separate table or JSONB field)
+- Created timestamp
+- Only the creator of a forum can edit or delete it.
+
+### Comments & Questions
+- Other users can comment or ask questions under a forum.
+- Each comment/question should have:
+- Content
+- Timestamp
+- User who posted it
+- Only the comment owner can delete their own comments.
+
+
+
+## Dependecies
+- Next JS v14
+- Node JS v18.18.0
+- NPM v9.8.1
+
+# Frontend App 
+# Configuration
+Create a .env file and add the below configuration
+```
+GITHUB_ID=<YOUR_GITHUB_ID>
+GITHUB_SECRET=<GITHUB_SECRET>
+NEXTAUTH_SECRET=iiuBTkMSoYKG/5gV81nYqnZhP+oel3AIqjB45O0O1xc=
+BACKEND_URL=http://localhost:3001 or <backend url>
+NEXT_PUBLIC_BACKEND_SERVER_URL=http://localhost:3001 or  <backend url>
+```
+## How to run the project
+navigate to project root directory /forums-frontend
+```
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Backend App
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-
--- dependecies
-Next JS v14
+## Configuration
+update your postgreql connection in .env
+```
+DATABASE_URL="postgresql://postgres:salman@localhost:5432/forumsdb"
+PORT=3001
+```
+## How to run the project
+navigate to project root directory /forums-backend
+Install dependecies
+```
+npm install
+```
+Migrate database from schema.prisma
+```
+npx prisma migrate dev
+```
+Run the server
+```
+npm run start
+```
