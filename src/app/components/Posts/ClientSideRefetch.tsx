@@ -7,6 +7,6 @@ export default function ClientSideRefetch() {
   useEffect(()=>{
     router.refresh();
 
-  },[]);
+  },[router]);
   return null;
 }
