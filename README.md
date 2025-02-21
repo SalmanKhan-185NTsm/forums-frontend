@@ -53,13 +53,19 @@ npm run dev
 # Backend App
 
 ## Configuration
-update your postgreql connection in .env
+Create a database named
 ```
-DATABASE_URL="postgresql://postgres:salman@localhost:5432/forumsdb"
+forumsdb
+```
+
+Create and update your postgreql connection in .env
+```
+DATABASE_URL="postgresql://postgres:<your_user_name>@<your_host>:<port_number>/forumsdb"
 PORT=3001
 ```
 ## How to run the project
 navigate to project root directory /forums-backend
+
 Install dependecies
 ```
 npm install
