@@ -19,7 +19,7 @@
 - Each forum have:
 - Title
 - Description
-- Tags (optional, stored as a separate table or JSONB field)
+- Tags (JSONB field)
 - Created timestamp
 - Only the creator of a forum can edit or delete it.
 
