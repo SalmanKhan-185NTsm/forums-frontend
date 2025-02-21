@@ -10,6 +10,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import dayjs from "dayjs";
 
 interface Comment {
   id: string;
@@ -63,15 +64,12 @@ export default function Comments({ postData, refresh, refreshData }: Props) {
     };
 
     fetchComments();
-  }, [refresh,postData.postId]);
+  }, [refresh, postData.postId]);
 
   if (loading) {
     return <div>Loading comments...</div>;
   }
-  const commentDate = (date: string) => {
-    const createdDate = new Date(date);
-    return `${createdDate.getDate()}-${createdDate.getMonth()}-${createdDate.getFullYear()} ${createdDate.getHours()}:${createdDate.getMinutes()} `;
-  };
+
   const userId = session?.user?.userId;
 
   const handleDelete = async (commentId: string) => {
@@ -91,10 +89,13 @@ export default function Comments({ postData, refresh, refreshData }: Props) {
       setLoading(false);
     }
   };
+  if (error !== "") {
+    return <div> {error} </div>;
+  }
   return (
     <>
       {comments.map((comment, index) => (
-        <Card key={"comments"+index} className="mb-8">
+        <Card key={"comments" + index} className="mb-8">
           <CardContent className="px-4 py-5 border m-5 rounded">
             {comment.content}
           </CardContent>
@@ -104,7 +105,10 @@ export default function Comments({ postData, refresh, refreshData }: Props) {
                 User: {comment.commentedByUserId.username}
               </div>
               <div className="font-semibold">
-                Commented On: {commentDate(comment.createdAt)}
+                Commented On:{" "}
+                {dayjs(new Date(comment.createdAt)).format(
+                  "DD MMM YYYY [at] hh:mm A"
+                )}
               </div>
             </CardDescription>
             {comment.commentedByUserId.id === userId && (

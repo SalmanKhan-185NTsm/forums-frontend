@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import dayjs from "dayjs";
 
 interface CardProps {
   data: any;
@@ -31,11 +32,6 @@ export default function PostCard({ data }: CardProps) {
       </CardContent>
 
       <CardFooter className="flex items-start flex-col">
-        <label className="text-xs">Posted By</label>
-        <CardTitle className="mb-2 block">
-          {data?.postedByUserId?.username}
-        </CardTitle>
-        <label className="text-xs mb-6 block font-semibold">{`${postedDate.getDate()}-${postedDate.getMonth()}-${postedDate.getFullYear()}`}</label>
         <div className="flex flex-row flex-wrap gap-5 mb-5">
           {data.tags?.map((data: Tags, index: number) => {
             return (
@@ -50,7 +46,14 @@ export default function PostCard({ data }: CardProps) {
             );
           })}
         </div>
-
+        <label className="text-xs">Posted By</label>
+        <CardTitle className="mb-2 block">
+          {data?.postedByUserId?.username}
+        </CardTitle>
+        <label className="text-xs mb-6 block font-semibold">
+          {dayjs(postedDate).format("DD MMM YYYY [at] hh:mm A")}
+          {/* {`${postedDate.getDate()}-${postedDate.getMonth()}-${postedDate.getFullYear()}`} */}
+        </label>
         <Link
           className={buttonVariants({
             variant: "default",

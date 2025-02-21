@@ -3,14 +3,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Button } from "@/components/ui/button";
-import { buttonVariants } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 
-interface Comment {
-  comment: string;
-  postedByUserId?: string | null | undefined;
-}
+// interface Comment {
+//   comment: string;
+//   postedByUserId?: string | null | undefined;
+// }
 
 type Props = {
   userSession: any;
@@ -29,7 +26,6 @@ export default function AddComment({
 }: Props) {
   const [submissionStatus, setSubmissionStatus] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       comment: "",

@@ -5,11 +5,11 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import axios from "axios";
 import PostCard from "@/app/components/Posts/Card";
+import ClientSideRefetch from "@/app/components/Posts/ClientSideRefetch";
 interface Posts {
   id: string;
   name: string;
   description: string;
-  // ... other properties
 }
 interface CardProps {
   data: any;
@@ -29,6 +29,7 @@ export default async function AllPosts() {
     const postData = response.data.data;
     return (
       <section className="w-[1280px] flex flex-col  items-start gap-6">
+        <ClientSideRefetch />
         {postData.length === 0 && <h2>You have No Posts</h2>}
         {postData.map((data: CardProps, index: number) => {
           return <PostCard key={"post_card" + index} data={data} />;

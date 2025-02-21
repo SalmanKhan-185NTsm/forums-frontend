@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -17,9 +16,8 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Comments from "../../../components/comments/Comments";
 import AddComment from "@/app/components/comments/AddComments";
-interface CardProps {
-  data: any;
-}
+import dayjs from "dayjs";
+
 interface Tags {
   id: string;
   name: string;
@@ -102,11 +100,6 @@ export default function PostDetails(props: any) {
         </CardContent>
 
         <CardFooter className="flex items-start flex-col">
-          <label className="text-xs">Posted By</label>
-          <CardTitle className="mb-2 block">
-            {postData?.postedByUserId?.username}
-          </CardTitle>
-          <label className="text-xs mb-6 block font-semibold">{`${postedDate.getDate()}-${postedDate.getMonth()}-${postedDate.getFullYear()}`}</label>
           <div className="flex flex-row flex-wrap gap-5 mb-5">
             {postData.tags?.map((data: Tags, index: number) => {
               return (
@@ -121,6 +114,13 @@ export default function PostDetails(props: any) {
               );
             })}
           </div>
+          <label className="text-xs">Posted By</label>
+          <CardTitle className="mb-2 block">
+            {postData?.postedByUserId?.username}
+          </CardTitle>
+          <label className="text-xs mb-6 block font-semibold">
+            {dayjs(postedDate).format("DD MMM YYYY [at] hh:mm A")}
+            </label>
           {postData.postedByUserId.id === userId && (
             <>
               <div className="flex flex-row gap-5">
@@ -146,7 +146,11 @@ export default function PostDetails(props: any) {
       </Card>
       <div className="my-10">
         <h2 className="text-2xl mb-5">Comments</h2>
-        <Comments refresh={refresh} refreshData={refreshData} postData={{ postId }} />
+        <Comments
+          refresh={refresh}
+          refreshData={refreshData}
+          postData={{ postId }}
+        />
         <div>
           <h2>Add Comment</h2>
           <AddComment
